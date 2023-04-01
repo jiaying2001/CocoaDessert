@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{globalLayout}">
+<head>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container">
+			<div class="row">
+				<tr th:each="product: ${newProducts}">
+				    <td >
+					    <div class="card col-sm" style="width: 18rem;">
+						  <img class="card-img-top" src="" alt="Image cap">
+						  <div class="card-body">
+						    <p class="card-text" th:text="${product.name}" ></p>
+						  </div>
+						</div>
+				    </td>
+				</tr>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
