@@ -1,0 +1,14 @@
+spring:
+    datasource:
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/cocoa?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+        username: root
+        password: root
+
+mybatis:
+    config-location:  classpath:mybatis-config.xml
+    mapper-locations: classpath:dao/*.xml
+    
+web:
+    resources:
+        static-locations: classpath:/static/, classpath:/templates/
