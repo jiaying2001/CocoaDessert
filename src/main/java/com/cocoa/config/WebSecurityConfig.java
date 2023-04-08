@@ -12,7 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.cocoa.security.BearerAccessDeniedHandler;
+import com.cocoa.security.BearerAuthenticationEntryPoint;
+import com.cocoa.security.JwtRequestFilter;
 import com.cocoa.service.UserService;
 
 @Configuration
@@ -22,22 +26,26 @@ public class WebSecurityConfig {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	BearerAuthenticationEntryPoint bearerAuthenticationEntryPoint;
+	
+	@Autowired
+	BearerAccessDeniedHandler bearerAccessDeniedHandler;
+	
+	@Autowired
+	JwtRequestFilter jwtRequestFilter;
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		 	http.formLogin((form -> form
-					.loginPage("/login")
-					.permitAll()))
+		 	http.authorizeHttpRequests((authorize) -> authorize.antMatchers("/login").permitAll()
+		 			.antMatchers("/home/content").permitAll())
 		 	.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
 		 	.csrf((csrf) -> csrf.disable())
-		 	.httpBasic(Customizer.withDefaults())
-			.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
 			.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.exceptionHandling((exceptions) -> exceptions
-								.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint()))
-			.accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-		 	;
-//		 	.antMatchers("/home/content").permitAll()
-//		 	.anyRequest().denyAll();
+								.authenticationEntryPoint(bearerAuthenticationEntryPoint)
+								.accessDeniedHandler(bearerAccessDeniedHandler))
+			.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		 	return http.build();
 	}
 	
