@@ -16,14 +16,27 @@ public class CommonResult<T> {
      * 数据封装
      */
     private T data;
-
+    
+    private String redirect;
+    
     protected CommonResult() {
+    }
+    
+    protected CommonResult(long code, String message, T data, String url) {
+    	this(code,  message,  data);
+    	this.redirect = url;
     }
     
     protected CommonResult(long code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+    
+    
+    
+    public static <T> CommonResult<T> redirect(String url) {
+    	return new CommonResult<T>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), null, url);
     }
     
     /**

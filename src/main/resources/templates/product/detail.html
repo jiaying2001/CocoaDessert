@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{globalLayout}">
+<head>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div th:object="${product}">
+			<div class="card">
+			  <img class="card-img-top"  alt="Product Image">
+			  <div class="card-body">
+			    <h5 class="card-title text-center" th:text="*{name}">Card title</h5>
+			    <p class="card-text"></p>
+			  </div>
+			  <ul class="list-group list-group-flush text-center">
+			    <li class="list-group-item">1</li>
+			    <li class="list-group-item">2</li>
+			    <li class="list-group-item">3</li>
+			  </ul>
+			  <div class="card-body text-right">
+			    <a th:href="@{/product/addToCart(productId=*{id})}" class=" btn btn-primary">加入购物车</a>
+			    <a href="#" class=" btn btn-primary">购买</a>
+			  </div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

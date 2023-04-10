@@ -37,8 +37,8 @@ public class WebSecurityConfig {
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		 	http.authorizeHttpRequests((authorize) -> authorize.antMatchers("/login").permitAll()
-		 			.antMatchers("/home/content").permitAll())
+		 	http.authorizeHttpRequests((authorize) -> authorize.antMatchers("/login", "/home/**", "/product/basket").permitAll()
+		 			.regexMatchers("/product/detail\\?productId=\\d*", "/product/addToCart\\?productId=\\d*").permitAll())
 		 	.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
 		 	.csrf((csrf) -> csrf.disable())
 			.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

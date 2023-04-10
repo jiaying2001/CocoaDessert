@@ -42,4 +42,8 @@ public class UserServiceImpl implements UserService {
 		return jwtTokenUtil.generateToken(user);
 	}
 
+	@Override
+	public long getIdByName(String username) {
+		return userDao.getIdByName(username);
+	}
 }

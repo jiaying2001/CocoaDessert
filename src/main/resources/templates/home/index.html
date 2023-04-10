@@ -10,11 +10,15 @@
 			<div class="row">
 				<tr th:each="product: ${newProducts}">
 				    <td >
-					    <div class="card col-sm" style="width: 18rem;">
-						  <img class="card-img-top" src="" alt="Image cap">
-						  <div class="card-body">
-						    <p class="card-text" th:text="${product.name}" ></p>
-						  </div>
+				    	<div class="card col-sm" style="width: 18rem;">
+				    		<a th:href="@{/product/detail(productId=${product.id})}">
+							    <div >
+								  <img class="card-img-top" src="" alt="Image cap">
+								  <div class="card-body">
+								    <p class="card-text" th:text="${product.name}" ></p>
+								  </div>
+								 </div>
+							  </a>
 						</div>
 				    </td>
 				</tr>

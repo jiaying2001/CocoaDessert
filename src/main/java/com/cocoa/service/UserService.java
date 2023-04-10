@@ -7,4 +7,6 @@ public interface UserService {
 	UserDetails getUserDetailsByUsername(String username);
 
 	String login(String username, String password);
+	
+	long getIdByName(String username);
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{globalLayout}">
+<head>
+	<script>
+		$(document).ready(function(){
+					
+					var form = $(this);
+			        var actionUrl = "/home/basketContent";
+			        
+			        $.ajax({
+			            type: "GET",
+			            url: actionUrl,
+			            beforeSend: function(request) {
+			                request.setRequestHeader("Authorization", "Bearer " + getCookie("jwt-token"));
+			             },
+			            data: form.serialize(),
+			            success:function(data){
+			            	document.getElementById("mainContent").innerHTML = data;
+			            }
+			        });
+				});
+	</script>	        
+</head>
+<body>
+	<div layout:fragment="content">
+		<div>
+			购物车
+		</div>
+		<div id="mainContent">test</div>
+	</div>
+</body>

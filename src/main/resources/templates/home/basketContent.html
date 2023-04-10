@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head/>
+<body>
+	<div>
+			<tr th:each="cartItem: ${cartItems}">
+				    <td >
+				    	<div class="card col-sm" style="width: 18rem;">
+							    <div >
+									  <img class="card-img-top" src="" alt="Image cap">
+									  <div class="card-body">
+									    <p class="card-text" th:text="${cartItem.productId}" ></p>
+									  </div>
+								 </div>
+						</div>
+				    </td>
+				</tr>
+		</div>
+</body>

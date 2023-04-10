@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{globalLayout}">
+<head>
+	<script>
+	$(document).ready(function(){
+	    $('#addToCartForm').submit(function(e){
+	        e.preventDefault();
+	        
+	        var form = $(this);
+	        var actionUrl = "/product/addToCartAction";
+	        
+	        $.ajax({
+	            type: "POST",
+	            url: actionUrl,
+	            beforeSend: function(request) {
+	                request.setRequestHeader("Authorization", "Bearer " + getCookie("jwt-token"));
+	             },
+	            data: form.serialize(),
+	            dataType: "json",
+	            success:function(data){
+	            	if(data.redirect){
+	            		window.location.replace(data.redirect);
+	            	} else {
+	            		alert(data.description);
+	            	}
+	            }
+	        });
+	    });
+	});
+	
+	function getCookie(cname) {
+		  let name = cname + "=";
+		  let decodedCookie = decodeURIComponent(document.cookie);
+		  let ca = decodedCookie.split(';');
+		  for(let i = 0; i <ca.length; i++) {
+		    let c = ca[i];
+		    while (c.charAt(0) == ' ') {
+		      c = c.substring(1);
+		    }
+		    if (c.indexOf(name) == 0) {
+		      return c.substring(name.length, c.length);
+		    }
+		  }
+		  return "";
+		}
+	</script>
+</head>
+<body>
+<div id="demo"></div>
+	<div layout:fragment="content">
+		<form id="addToCartForm" th:object="${product}" method="post">
+	    	<label th:text=*{name}></label>
+	    	<input type="hidden" name="productId" th:value="*{id}" >
+	      <input type="submit" value="完成"/>
+	    </form>
+	</div>
+</body>
+</html>

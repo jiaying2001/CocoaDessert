@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cocoa.dao.CartDao">
+	<insert id="addToCart">
+		INSERT INTO oms_cart_item (product_id, member_id, quantity, create_date, modify_date)
+		VALUES (#{productId}, #{memberId}, 1, #{created}, #{modified})
+	</insert>
+	
+	<select id="findByProductIdAndMemberId" resultMap="cartItemParamResultMap">
+		SELECT product_id, member_id, create_date, modify_date
+		FROM oms_cart_item
+		WHERE member_id=#{memberId} AND
+			  product_id=#{productId}; 
+	</select>
+	
+	<update id="increQuantityBy">
+		UPDATE oms_cart_item
+		SET quantity = quantity + 1
+		WHERE member_id=#{memberId} AND
+			  product_id=#{productId}; 
+	</update>
+	
+	<select id="getCartItemsById" parameterType="java.lang.Long" resultMap="cartItemParamResultMap">
+		SELECT product_id, member_id, create_date, modify_date
+		FROM oms_cart_item
+		WHERE member_id=#{memberId}
+	</select>
+	
+	<resultMap id="cartItemParamResultMap" type="com.cocoa.model.CartItemParam">
+		<result column="product_id" jdbcType="BIGINT" property="productId"/>
+		<result column="member_id" jdbcType="BIGINT" property="memberId"/>
+		<result column="create_date" jdbcType="TIMESTAMP" property="created"/>
+		<result column="modify_date" jdbcType="TIMESTAMP" property="modified"/>
+	</resultMap>
+</mapper>
