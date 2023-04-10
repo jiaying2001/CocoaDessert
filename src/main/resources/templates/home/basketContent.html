@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head/>
+<head>
+</head>
 <body>
 	<div>
 			<tr th:each="cartItem: ${cartItems}">
@@ -10,7 +11,12 @@
 							    <div >
 									  <img class="card-img-top" src="" alt="Image cap">
 									  <div class="card-body">
-									    <p class="card-text" th:text="${cartItem.productId}" ></p>
+									    <p class="card-text" th:text="${cartItem.product.name}" ></p>
+									  </div>
+									  <div class="nav justify-content-end">
+									  		<button id="decre-quantity" th:attr="onclick=|decreQuantity('${cartItem.product.id}')|"  class="py-0">-</button>
+											<div th:id="${cartItem.product.id}" th:text="${cartItem.CartItemParam.quantity}"></div>
+									  		<button id="incre-quantity" th:attr="onclick=|increQuantity('${cartItem.product.id}')|">+</button>
 									  </div>
 								 </div>
 						</div>

@@ -6,21 +6,54 @@
 	<script>
 		$(document).ready(function(){
 					
-					var form = $(this);
+					$.ajaxSetup({
+					    beforeSend: function(xhr) {
+					        xhr.setRequestHeader("Authorization", "Bearer " + getCookie("jwt-token"));
+					    }
+					});
+			
 			        var actionUrl = "/home/basketContent";
 			        
 			        $.ajax({
 			            type: "GET",
 			            url: actionUrl,
-			            beforeSend: function(request) {
-			                request.setRequestHeader("Authorization", "Bearer " + getCookie("jwt-token"));
-			             },
-			            data: form.serialize(),
 			            success:function(data){
 			            	document.getElementById("mainContent").innerHTML = data;
 			            }
 			        });
+			       
+			        
 				});
+		function decreQuantity(productId){
+        	$.ajax({
+	            type: "PUT",
+	            url: "/product/api/decrement",
+	            dataType: 'json',
+	            contentType: "application/json",
+	            data: "{\"productId\": \"" + productId + "\"}",
+	            success:function(data){
+	            	if(data.code == 200){
+	            		document.getElementById(productId).innerHTML = parseInt(document.getElementById(productId).innerHTML) - 1;
+	            	}
+	            }
+	        });
+        }
+		
+		function increQuantity(productId){
+        	$.ajax({
+	            type: "PUT",
+	            url: "/product/api/increment",
+	            dataType: 'json',
+	            contentType: "application/json",
+	            data: "{\"productId\": \"" + productId + "\"}",
+	            success:function(data){
+	            	if(data.code == 200){
+	            		document.getElementById(productId).innerHTML = parseInt(document.getElementById(productId).innerHTML) + 1;
+	            	}
+	            }
+	        });
+        }
+				
 	</script>	        
 </head>
 <body>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import com.cocoa.model.CartItem;
 import com.cocoa.model.CartItemParam;
 
 @Component
@@ -15,5 +16,7 @@ public interface CartDao {
 
 	int increQuantityBy(CartItemParam cartItemParam);
 
-	List<CartItemParam> getCartItemsById(@Param("memberId") long memberId);
+	List<CartItem> getCartItemsById(@Param("memberId") long memberId);
+
+	int decreQuantity(CartItemParam cartItemParam);
 }

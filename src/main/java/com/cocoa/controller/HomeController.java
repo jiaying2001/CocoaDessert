@@ -46,7 +46,7 @@ public class HomeController {
 		return "home/me";
 	}
 	
-	@ApiOperation("购物车")
+	@ApiOperation("购物车包装页面")
 	@GetMapping("/basket")
 	public String basket() {
 		return "home/basket";

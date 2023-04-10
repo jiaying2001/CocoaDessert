@@ -18,18 +18,33 @@
 		SET quantity = quantity + 1
 		WHERE member_id=#{memberId} AND
 			  product_id=#{productId}; 
+	</update> 
+	
+	<update id="decreQuantity">
+		UPDATE oms_cart_item
+		SET quantity = quantity - 1
+		WHERE member_id=#{memberId} AND
+			  product_id=#{productId};
 	</update>
 	
-	<select id="getCartItemsById" parameterType="java.lang.Long" resultMap="cartItemParamResultMap">
-		SELECT product_id, member_id, create_date, modify_date
-		FROM oms_cart_item
-		WHERE member_id=#{memberId}
+	<select id="getCartItemsById" parameterType="java.lang.Long" resultMap="cartItemResultMap">
+		SELECT cart.product_id, cart.member_id, cart.create_date, cart.modify_date, cart.quantity, product.*
+		FROM oms_cart_item as cart
+		JOIN pms_product as product
+		WHERE cart.member_id=#{memberId} AND
+			  cart.product_id = product.id;
 	</select>
+	
+	<resultMap type="com.cocoa.model.CartItem" id="cartItemResultMap">
+		<association property="product" javaType="com.cocoa.model.PmsProduct" resultMap="com.cocoa.dao.HomeContentDao.PmsProductResultMap"/>
+		<association property="cartItemParam" javaType="com.cocoa.model.CartItemParam" resultMap="cartItemParamResultMap"/>
+	</resultMap>
 	
 	<resultMap id="cartItemParamResultMap" type="com.cocoa.model.CartItemParam">
 		<result column="product_id" jdbcType="BIGINT" property="productId"/>
 		<result column="member_id" jdbcType="BIGINT" property="memberId"/>
 		<result column="create_date" jdbcType="TIMESTAMP" property="created"/>
 		<result column="modify_date" jdbcType="TIMESTAMP" property="modified"/>
+		<result column="quantity" jdbcType="INTEGER" property="quantity"/>
 	</resultMap>
 </mapper>

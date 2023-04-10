@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cocoa.dao.CartDao;
+import com.cocoa.model.CartItem;
 import com.cocoa.model.CartItemParam;
 import com.cocoa.model.PmsProduct;
 import com.cocoa.service.CartService;
@@ -30,12 +31,18 @@ public class CartServiceImpl implements CartService {
 		return (cartItem == null)? false: true; 
 	}
 
-	private void increQuantityBy(CartItemParam cartItemParam) {
+	@Override
+	public void increQuantityBy(CartItemParam cartItemParam) {
 		cartDao.increQuantityBy(cartItemParam);
+	}
+	
+	@Override 
+	public void decreQuantity(CartItemParam cartItemParam) {
+		cartDao.decreQuantity(cartItemParam);
 	}
 
 	@Override
-	public List<CartItemParam> getCartItemsById(long id) {
+	public List<CartItem> getCartItemsById(long id) {
 		return cartDao.getCartItemsById(id);
 	}
 }
